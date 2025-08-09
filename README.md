@@ -1,3 +1,15 @@
+## Sneakers Shop
+
+* microservice sneakers application
+* Frontend: Vue => SPA -> List all sneaker products
+* Backend: Golang => Serves REST API for all products, product details
+* Payment: Golang => Add entry to database, no real implementation
+* Logs & Analytics: Python => Shows most purchased products in last 10 mins (JSON format)
+* Database: PostgreSQL => Contains product, logs data
+
+![Sneakers](./Screenshot%202025-08-09%20120056.png)
+
+
 ## Service URLs
 
 - Frontend: http://localhost:3000

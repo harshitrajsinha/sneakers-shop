@@ -21,11 +21,12 @@ def get_purchases_by_timeframe(minutes):
         time_threshold = datetime.now() - timedelta(minutes=minutes)
         
         cursor.execute("""
-            SELECT p.name as product_name
+            SELECT p.name as product_name, COUNT(*) as purchase_count
             FROM payment_logs pl
             JOIN products p ON pl.product_id = p.id
             WHERE pl.status = 'success'
             GROUP BY pl.product_id, p.name
+            ORDER BY purchase_count DESC
             LIMIT 10
         """)
         
