@@ -1,14 +1,13 @@
 ## Sneakers Shop
 
-* microservice sneakers application
-* Frontend: Vue => SPA -> List all sneaker products
-* Backend: Golang => Serves REST API for all products, product details
-* Payment: Golang => Add entry to database, no real implementation
-* Logs & Analytics: Python => Shows most purchased products in last 10 mins (JSON format)
-* Database: PostgreSQL => Contains product, logs data
+- microservice sneakers application
+- Frontend: Vue => SPA -> List all sneaker products
+- Backend: Golang => Serves REST API for all products, product details
+- Payment: Golang => Add entry to database, no real implementation
+- Logs & Analytics: Python => Shows most purchased products in last 10 mins (JSON format)
+- Database: PostgreSQL => Contains product, logs data
 
 ![Sneakers](./Screenshot%202025-08-09%20120056.png)
-
 
 ## Service URLs
 
@@ -30,7 +29,7 @@
 
 ### Container Run
 
-- database: docker run --name sneaker-database --network sneakers-shop -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 sneaker-database
+- database: docker run --name sneaker-database --network sneakers-shop -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 sneaker-database
 - backend: docker run --name sneaker-backend --network sneakers-shop -p 8080:8080 sneaker-backend
 - frontend: docker run --name sneaker-frontend -d -p 3000:80 sneaker-frontend
 - payment: docker run --name sneaker-payment --network sneakers-shop -p 8081:8081 sneaker-payment
@@ -38,3 +37,4 @@
 - analytics: docker run --name sneaker-analytics --network sneakers-shop -p 8083:8083 sneaker-analytics
 
 docker exec -it <container-name> psql -U $POSTGRES_USER -d $POSTGRES_DB
+docker exec -it <container-name> sneaker-backend

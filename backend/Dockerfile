@@ -21,7 +21,7 @@ WORKDIR /app
 # Copy binary file from build stage
 COPY --from=builder /app/sneaker-backend.exe .
 
-EXPOSE 8081
+EXPOSE 8080
 
 # Run the app
 CMD ["./sneaker-backend.exe"]
