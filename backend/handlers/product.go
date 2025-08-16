@@ -6,6 +6,8 @@ import (
 	"sneaker-backend/database"
 	"sneaker-backend/models"
 	"strconv"
+	"log"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -33,6 +35,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
+	log.Println("GET: /api/products ", time.Now().Format("2006-01-02 15:04:05"))
 }
 
 func GetProductDetails(w http.ResponseWriter, r *http.Request) {
@@ -60,4 +63,5 @@ func GetProductDetails(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
+	log.Printf("GET: /api/products/%d %s", id, time.Now().Format("2006-01-02 15:04:05"))
 }
