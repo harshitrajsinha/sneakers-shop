@@ -38,3 +38,14 @@
 
 docker exec -it <container-name> psql -U $POSTGRES_USER -d $POSTGRES_DB
 docker exec -it <container-name> sneaker-backend
+
+### Testing and Monitoring
+
+- Locust: docker run --name locust -p 8089:8089 -v /home/rajsinha/sneakers-shop/locust:/mnt/locust locustio/locust -f /mnt/locust/locustfile.py --host http://192.168.0.190:8080
+
+- Prometheus: docker run --name prom -p 9090:9090 -v /home/rajsinha/sneakers-shop/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+
+- Grafana: docker run -d -p 3002:3000 --name=grafana -v /home/rajsinha/sneakers-shop/grafana-data:/var/lib/grafana grafana/grafana-oss
+
+- rate(process_cpu_seconds_total{job="prometheus"}[5m]) * 100
+- process_resident_memory_bytes{job="prometheus"}

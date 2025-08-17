@@ -8,6 +8,11 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
+
+	"github.com/prometheus/client_golang/prometheus/collectors"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -16,6 +21,7 @@ func main() {
 
 	// Setup routes
 	router := mux.NewRouter()
+	reg := prometheus.NewRegistry()
 
 	// API routes
 	api := router.PathPrefix("/api").Subrouter()
@@ -28,6 +34,13 @@ func main() {
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"*"},
 	})
+
+	reg.MustRegister(
+		collectors.NewGoCollector(),
+		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	)
+
+	router.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg}))
 
 	handler := c.Handler(router)
 
