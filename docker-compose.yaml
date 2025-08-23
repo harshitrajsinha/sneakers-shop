@@ -1,0 +1,82 @@
+services:
+  frontend:
+    build: ./frontend
+    image: sneaker-frontend
+    container_name: sneaker-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - sneaker-shop-net
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    image: sneaker-backend
+    container_name: sneaker-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - sneaker-shop-net
+    depends_on:
+      database:
+        condition: service_healthy
+
+  logs:
+    build: ./logs
+    image: sneaker-logs
+    container_name: sneaker-logs
+    ports:
+      - "8082:8082"
+    networks:
+      - sneaker-shop-net
+    depends_on:
+      database:
+        condition: service_healthy
+
+  analytics:
+    build: ./analytics
+    image: sneaker-analytics
+    container_name: sneaker-analytics
+    ports:
+      - "8083:8083"
+    networks:
+      - sneaker-shop-net
+    depends_on:
+      database:
+        condition: service_healthy
+
+  payment:
+    build: ./payment-service
+    image: sneaker-payment
+    container_name: sneaker-payment
+    ports:
+      - "8081:8081"
+    networks:
+      - sneaker-shop-net
+    depends_on:
+      database:
+        condition: service_healthy
+  
+  database:
+    build: ./database
+    image: sneaker-database
+    container_name: sneaker-database
+    restart: always
+    networks:
+      - sneaker-shop-net
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+  
+networks:
+  sneaker-shop-net:
+    name: sneaker-shop
+    driver: bridge
