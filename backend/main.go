@@ -1,18 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"sneaker-backend/database"
 	"sneaker-backend/handlers"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-
-	"github.com/prometheus/client_golang/prometheus/collectors"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -21,10 +18,20 @@ func main() {
 
 	// Setup routes
 	router := mux.NewRouter()
-	reg := prometheus.NewRegistry()
+	// reg := prometheus.NewRegistry()
 
 	// API routes
+
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{
+			"message": "Welcome",
+		})
+		log.Println("GET: /", time.Now().Format("2006-01-02 15:04:05"))
+	}).Methods("GET")
+	
 	api := router.PathPrefix("/api").Subrouter()
+
 	api.HandleFunc("/products", handlers.GetProducts).Methods("GET")
 	api.HandleFunc("/products/{id}", handlers.GetProductDetails).Methods("GET")
 
@@ -35,12 +42,12 @@ func main() {
 		AllowedHeaders: []string{"*"},
 	})
 
-	reg.MustRegister(
-		collectors.NewGoCollector(),
-		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
-	)
+	// reg.MustRegister(
+	// 	collectors.NewGoCollector(),
+	// 	collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
+	// )
 
-	router.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg}))
+	// router.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{Registry: reg}))
 
 	handler := c.Handler(router)
 
