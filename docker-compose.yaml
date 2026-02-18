@@ -14,6 +14,8 @@ services:
     build: ./backend
     image: sneaker-backend
     container_name: sneaker-backend
+    environment:
+      - SERVER_IP=${SERVER_IP}
     ports:
       - "8080:8080"
     networks:
@@ -50,6 +52,8 @@ services:
     build: ./payment-service
     image: sneaker-payment
     container_name: sneaker-payment
+    environment:
+      - SERVER_IP=${SERVER_IP}
     ports:
       - "8081:8081"
     networks:

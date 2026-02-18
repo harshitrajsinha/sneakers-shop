@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 	"sneaker-backend/database"
 	"sneaker-backend/handlers"
 	"time"
@@ -22,22 +23,23 @@ func main() {
 
 	// API routes
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]string{
 			"message": "Welcome",
 		})
 		log.Println("GET: /", time.Now().Format("2006-01-02 15:04:05"))
 	}).Methods("GET")
-	
+
 	api := router.PathPrefix("/api").Subrouter()
 
 	api.HandleFunc("/products", handlers.GetProducts).Methods("GET")
 	api.HandleFunc("/products/{id}", handlers.GetProductDetails).Methods("GET")
 
 	// Setup CORS
+	serverIP := os.Getenv("SERVER_IP")
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedOrigins: []string{"http://%s:3000", serverIP},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"*"},
 	})

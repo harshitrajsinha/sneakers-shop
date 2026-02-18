@@ -78,7 +78,7 @@ export default {
   methods: {
     async loadProducts() {
       try {
-        const response = await axios.get("http://localhost:8080/api/products");
+        const response = await axios.get(`http://${process.env.SERVER_IP}:8080/api/products`);
         this.products = response.data;
         this.loading = false;
       } catch (error) {
@@ -89,7 +89,7 @@ export default {
     async showProductDetails(productId) {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/products/${productId}`
+          `http://${process.env.SERVER_IP}:8080/api/products/${productId}`
         );
         this.selectedProductDetails = response.data;
         this.showModal = true;
@@ -106,7 +106,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://localhost:8081/api/payment/process",
+          "http://${process.env.SERVER_IP}:8081/api/payment/process",
           paymentData
         );
 
