@@ -81,7 +81,7 @@ export default {
   methods: {
     async loadProducts() {
       try {
-        const response = await axios.get(`http://${import.meta.env.VUE_APP_SERVER_IP}:8080/api/products`);
+        const response = await axios.get(`http://${import.meta.env.VITE_SERVER_IP}:8080/api/products`);
         // const response = await axios.get(`http://localhost:8080/api/products`);
         console.log("here again", import.meta.env.VITE_SERVER_IP)
         this.products = response.data;
@@ -94,7 +94,7 @@ export default {
     async showProductDetails(productId) {
       try {
         const response = await axios.get(
-          `http://${process.env.VUE_APP_SERVER_IP}:8080/api/products/${productId}`
+          `http://${import.meta.env.VITE_SERVER_IP}:8080/api/products/${productId}`
           // `http://localhost:8080/api/products/${productId}`
         );
         this.selectedProductDetails = response.data;
@@ -112,7 +112,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://${process.env.VUE_APP_SERVER_IP}:8081/api/payment/process",
+          `http://${import.meta.env.VITE_SERVER_IP}:8081/api/payment/process`,
           // "http://localhost:8081/api/payment/process",
           paymentData
         );
