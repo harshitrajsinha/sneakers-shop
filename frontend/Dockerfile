@@ -5,7 +5,10 @@ FROM node:24.5.0-alpine AS build-stage
 WORKDIR /app
 
 # Pass build-time arguments
+
+# For vuejs env
 ARG VITE_SERVER_IP
+# For nginx.conf
 ENV VITE_SERVER_IP=$VITE_SERVER_IP
 
 COPY package*.json ./

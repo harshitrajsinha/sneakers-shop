@@ -5,9 +5,9 @@ services:
     build: 
       context: ./frontend
       args:
-        VITE_SERVER_IP: ${SERVER_IP}
+        VITE_SERVER_IP: ${SERVER_IP} # For vuejs env
     environment:
-      - VITE_SERVER_IP=${SERVER_IP}
+      - VITE_SERVER_IP=${SERVER_IP} # For nginx.conf
     ports:
       - "3000:80"
     networks:
