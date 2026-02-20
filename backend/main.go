@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -38,8 +39,9 @@ func main() {
 
 	// Setup CORS
 	serverIP := os.Getenv("SERVER_IP")
+	serverOrigin := fmt.Sprintf("http://%s:3000", serverIP)
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://%s:3000", serverIP},
+		AllowedOrigins: []string{"http://localhost:3000", serverOrigin},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"*"},
 	})

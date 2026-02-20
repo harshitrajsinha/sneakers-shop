@@ -38,8 +38,11 @@
 - analytics: docker run --name sneaker-analytics --network sneakers-shop -p 8083:8083 sneaker-analytics
 - loadbalancer: docker run --name nginx-lb -p 8080:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx:latest
 
-docker exec -it <container-name> psql -U $POSTGRES_USER -d $POSTGRES_DB
-docker exec -it <container-name> sneaker-backend
+docker exec -it <container-name-or-id> psql -U $POSTGRES_USER -d $POSTGRES_DB
+* Here POSTGRES_DB = sneaker_db 
+
+docker exec -it <container-name-or-id> sh
+* sh => shell
 
 ### Testing and Monitoring
 

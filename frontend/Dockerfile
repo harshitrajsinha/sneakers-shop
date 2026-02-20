@@ -4,6 +4,10 @@ FROM node:24.5.0-alpine AS build-stage
 # Setting working directory
 WORKDIR /app
 
+# Pass build-time arguments
+ARG VITE_SERVER_IP
+ENV VITE_SERVER_IP=$VITE_SERVER_IP
+
 COPY package*.json ./
 
 # Install dependencies
@@ -20,10 +24,12 @@ FROM nginx:stable-alpine AS production-stage
 # Copy only build files
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/nginx.conf
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["./entrypoint.sh"]

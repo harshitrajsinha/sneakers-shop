@@ -1,8 +1,13 @@
 services:
   frontend:
-    build: ./frontend
     image: sneaker-frontend
     container_name: sneaker-frontend
+    build: 
+      context: ./frontend
+      args:
+        VITE_SERVER_IP: ${SERVER_IP}
+    environment:
+      - VITE_SERVER_IP=${SERVER_IP}
     ports:
       - "3000:80"
     networks:
