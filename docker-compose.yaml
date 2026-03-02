@@ -7,7 +7,7 @@ services:
       args:
         VITE_SERVER_IP: ${SERVER_IP} # For vuejs env
     environment:
-      - VITE_SERVER_IP=${SERVER_IP} # For nginx.conf
+      VITE_SERVER_IP=${SERVER_IP} # For nginx.conf
     ports:
       - "3000:80"
     networks:
@@ -20,7 +20,7 @@ services:
     image: sneaker-backend
     container_name: sneaker-backend
     environment:
-      - SERVER_IP=${SERVER_IP}
+      SERVER_IP=${SERVER_IP}
     ports:
       - "8080:8080"
     networks:
@@ -58,7 +58,7 @@ services:
     image: sneaker-payment
     container_name: sneaker-payment
     environment:
-      - SERVER_IP=${SERVER_IP}
+      SERVER_IP=${SERVER_IP}
     ports:
       - "8081:8081"
     networks:
