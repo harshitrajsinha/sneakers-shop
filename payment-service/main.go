@@ -23,9 +23,9 @@ func main() {
 	api.HandleFunc("/payment/process", handlers.ProcessPayment).Methods("POST")
 
 	// Setup CORS
-	serverIP := os.Getenv("SERVER_IP")
+	frontendSocket := os.Getenv("FRONTEND_SOCKET") // to enable CORS
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://%s:3000", serverIP},
+		AllowedOrigins: []string{"http://localhost:3000", frontendSocket},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"*"},
 	})

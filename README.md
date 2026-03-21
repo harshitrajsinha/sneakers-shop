@@ -19,7 +19,7 @@
 
 ### Image build
 
-- network: docker network create sneakers-shop
+- network: docker network create sneakers-shop-net
 - database: docker build -t sneaker-database .
 - backend: docker build -t sneaker-backend .
 - frontend: docker build -t sneaker-frontend .
@@ -29,13 +29,13 @@
 
 ### Container Run
 
-- database: docker run --name sneaker-database --network sneakers-shop -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 sneaker-database
-- backend: docker run --name sneaker-backend --network sneakers-shop -p 8080:8080 sneaker-backend
-- backend: docker run --name sneaker-backend --cpus="1.0" -m 100m --network sneakers-shop -p 8080:8080 sneaker-backend
-- frontend: docker run --name sneaker-frontend -d -p 3000:80 sneaker-frontend
-- payment: docker run --name sneaker-payment --network sneakers-shop -p 8081:8081 sneaker-payment
-- logs: docker run --name sneaker-logs --network sneakers-shop -p 8082:8082 sneaker-logs
-- analytics: docker run --name sneaker-analytics --network sneakers-shop -p 8083:8083 sneaker-analytics
+- database: docker run --name sneakerdb --network sneakers-shop-net -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 sneaker-database
+- backend: docker run --name sneaker-backend --network sneakers-shop-net -e FRONTEND_SOCKET=localhost:3000 -e DATABASE_HOST=sneakerdb -p 8080:8080 sneaker-backend
+- backend: docker run --name sneaker-backend --cpus="1.0" -m 100m --network sneakers-shop-net -e FRONTEND_SOCKET=localhost:3000 -p 8080:8080 sneaker-backend
+- frontend: docker run --name sneaker-frontend -d -p 3000:80 -e BACKEND_SOCKET=localhost:8080 -e PAYMENT_SOCKET=localhost:8081 sneaker-frontend
+- payment: docker run --name sneaker-payment --network sneakers-shop-net -p 8081:8081 -e DATABASE_HOST=sneakerdb -e FRONTEND_SOCKET=localhost:3000 sneaker-payment
+- logs: docker run --name sneaker-logs --network sneakers-shop-net -p 8082:8082 -e DATABASE_HOST=sneakerdb sneaker-logs
+- analytics: docker run --name sneaker-analytics --network sneakers-shop-net -p 8083:8083 -e DATABASE_HOST=sneakerdb sneaker-analytics
 - loadbalancer: docker run --name nginx-lb -p 8080:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro nginx:latest
 
 docker exec -it <container-name-or-id> psql -U $POSTGRES_USER -d $POSTGRES_DB
@@ -56,3 +56,31 @@ docker exec -it <container-name-or-id> sh
 
 - rate(process_cpu_seconds_total{job="prometheus"}[5m]) * 100
 - process_resident_memory_bytes{job="prometheus"} -->
+
+# Running on EC2 instance
+
+- If the application is running on EC2 instance
+- Run each microservice on separate EC2 via - `docker compose up <service-name>`
+- Replace .env file as -
+    ```
+        BACKEND_SOCKET=BACKEND_EC2_PUBLIC_IP:8080
+        PAYMENT_SOCKET=PAYMENT_EC2_PUBLIC_IP:8081
+        FRONTEND_SOCKET=FRONTEND_EC2_PUBLIC_IP:3000
+        DATABASE_HOST=DATABASE_EC2_PRIVATE_IP:5432
+    ```
+
+# Running on Codespaces
+- Replace .env file as -
+    ```
+        FRONTEND_SOCKET=https://expert-broccoli-7x9qxg7v5jv3x644-3000.app.github.dev (replace with codespace url)
+        DATABASE_HOST=sneakerdb
+    ```
+
+# Running locally
+- Replace .env file as -
+    ```
+        BACKEND_SOCKET=localhost:8080
+        PAYMENT_SOCKET=localhost:8081
+        FRONTEND_SOCKET=localhost:3000
+        DATABASE_HOST=sneakerdb
+    ```

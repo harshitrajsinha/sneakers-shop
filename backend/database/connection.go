@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -11,7 +12,9 @@ var DB *sql.DB
 
 func InitDB() {
 	var err error
-	DB, err = sql.Open("postgres", "postgres://admin:admin123@sneaker-database:5432/sneaker_db?sslmode=disable")
+	databaseHost := os.Getenv("DATABASE_HOST")
+	DB, err = sql.Open("postgres", "postgres://admin:admin123@"+databaseHost+":5432/sneaker_db?sslmode=disable")
+	// DB, err = sql.Open("postgres", "postgres://admin:admin123@sneakerdb:5432/sneaker_db?sslmode=disable")
 	if err != nil {
 		log.Fatal("Failed to connect to database:", err)
 	}

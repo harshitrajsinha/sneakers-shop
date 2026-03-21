@@ -7,9 +7,9 @@ WORKDIR /app
 # Pass build-time arguments
 
 # For vuejs env
-ARG VITE_SERVER_IP
+ARG VITE_BACKEND_SOCKET
 # For nginx.conf
-ENV VITE_SERVER_IP=$VITE_SERVER_IP
+ENV VITE_BACKEND_SOCKET=$VITE_BACKEND_SOCKET
 
 COPY package*.json ./
 

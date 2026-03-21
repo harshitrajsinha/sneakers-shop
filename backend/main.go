@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -15,6 +14,7 @@ import (
 )
 
 func main() {
+
 	// Initialize database
 	database.InitDB()
 
@@ -38,10 +38,9 @@ func main() {
 	api.HandleFunc("/products/{id}", handlers.GetProductDetails).Methods("GET")
 
 	// Setup CORS
-	serverIP := os.Getenv("SERVER_IP")
-	serverOrigin := fmt.Sprintf("http://%s:3000", serverIP)
+	frontendSocket := os.Getenv("FRONTEND_SOCKET") // to enable CORS
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000", serverOrigin},
+		AllowedOrigins: []string{"http://localhost:3000", frontendSocket},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"*"},
 	})

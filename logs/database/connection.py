@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import os
 
 class Database:
     def __init__(self):
@@ -9,7 +10,7 @@ class Database:
     def connect(self):
         try:
             self.connection = psycopg2.connect(
-                host="sneaker-database",
+                host=os.environ.get("DATABASE_HOST", "localhost"),
                 port="5432",
                 database="logs_db",
                 user="admin",
