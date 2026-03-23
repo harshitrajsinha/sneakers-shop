@@ -5,10 +5,13 @@ services:
     build: 
       context: ./frontend
       args:
-        VITE_BACKEND_SOCKET: ${BACKEND_SOCKET} # For vuejs env
-        VITE_PAYMENT_SOCKET: ${PAYMENT_SOCKET} # For vuejs env
+        - NGINX_SERVER=${NGINX_SERVER}
+        - VITE_BACKEND_SOCKET=${BACKEND_SOCKET} # For vuejs env
+        - VITE_PAYMENT_SOCKET=${PAYMENT_SOCKET} # For vuejs env
     environment:
-      - VITE_BACKEND_SOCKET=${BACKEND_SOCKET} # For nginx.conf
+      - VITE_BACKEND_SOCKET=${VITE_BACKEND_SOCKET} # For nginx.conf
+      - VITE_PAYMENT_SOCKET=${VITE_PAYMENT_SOCKET} # For nginx.conf
+      - NGINX_SERVER=${NGINX_SERVER} # For nginx.conf
     ports:
       - "3000:80"
     networks:

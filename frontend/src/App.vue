@@ -61,9 +61,6 @@ import ProductCard from "./components/ProductCard.vue";
 
 export default {
   name: "App",
-  mounted() {
-    console.log(process.env.VUE_APP_SERVER_IP);
-  },
   components: {
     ProductCard,
   },
@@ -111,7 +108,7 @@ export default {
         };
 
         const response = await axios.post(
-          `http://${import.meta.env.VITE_PAYMENT_SOCKET}/api/payment/process`,
+          `${import.meta.env.VITE_PAYMENT_SOCKET}/api/payment/process`,
           // "http://localhost:8081/api/payment/process",
           paymentData
         );
