@@ -60,13 +60,14 @@ docker exec -it <container-name-or-id> sh
 # Running on EC2 instance
 
 - If the application is running on EC2 instance
-- Run each microservice on separate EC2 via - `docker compose up <service-name>`
+- Run each microservice on separate EC2 via - `docker run ...`
 - Replace .env file as -
     ```
-        BACKEND_SOCKET=BACKEND_EC2_PUBLIC_IP:8080
-        PAYMENT_SOCKET=PAYMENT_EC2_PUBLIC_IP:8081
+        VITE_BACKEND_SOCKET=BACKEND_EC2_PUBLIC_IP:8080
+        VITE_PAYMENT_SOCKET=PAYMENT_EC2_PUBLIC_IP:8081
         FRONTEND_SOCKET=FRONTEND_EC2_PUBLIC_IP:3000
-        DATABASE_HOST=DATABASE_EC2_PRIVATE_IP:5432
+        # Not to specify database port
+        DATABASE_HOST=DATABASE_EC2_PRIVATE_IP
     ```
 
 # Running on Codespaces
