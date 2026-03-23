@@ -78,7 +78,7 @@ export default {
   methods: {
     async loadProducts() {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_SOCKET}/api/products`);
+        const response = await axios.get(`${window.APP_CONFIG.VITE_BACKEND_SOCKET}/api/products`);
         // const response = await axios.get(`http://localhost:8080/api/products`);
         this.products = response.data;
         this.loading = false;
@@ -90,7 +90,7 @@ export default {
     async showProductDetails(productId) {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_SOCKET}/api/products/${productId}`
+          `${window.APP_CONFIG.VITE_BACKEND_SOCKET}/api/products/${productId}`
           // `http://localhost:8080/api/products/${productId}`
         );
         this.selectedProductDetails = response.data;
@@ -108,7 +108,7 @@ export default {
         };
 
         const response = await axios.post(
-          `${import.meta.env.VITE_PAYMENT_SOCKET}/api/payment/process`,
+          `${window.APP_CONFIG.VITE_PAYMENT_SOCKET}/api/payment/process`,
           // "http://localhost:8081/api/payment/process",
           paymentData
         );

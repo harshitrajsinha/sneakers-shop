@@ -85,3 +85,5 @@ docker exec -it <container-name-or-id> sh
         FRONTEND_SOCKET=localhost:3000
         DATABASE_HOST=sneakerdb
     ```
+
+- cat /etc/nginx/conf.d/default.conf
