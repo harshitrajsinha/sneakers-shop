@@ -11,6 +11,12 @@ RUN npm install
 
 COPY . .
 
+# Provides envsubst
+RUN apk add --no-cache gettext
+
+# Generate nginx.conf from template
+RUN envsubst '$NGINX_SERVER' < nginx.conf.template > nginx.conf
+
 # Build first layer
 RUN npm run build
 
@@ -20,7 +26,7 @@ FROM nginx:stable-alpine AS production-stage
 # Copy only build files
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80

@@ -3,10 +3,12 @@ services:
     image: sneaker-frontend
     container_name: sneaker-frontend
     build: 
-      context: ./frontend/Dockerfile.compose
+      context: ./frontend
+      dockerfile: Dockerfile.compose
       args:
         - VITE_BACKEND_SOCKET=${VITE_BACKEND_SOCKET} # For vuejs env
         - VITE_PAYMENT_SOCKET=${VITE_PAYMENT_SOCKET} # For vuejs env
+        - NGINX_SERVER=${NGINX_SERVER}
     ports:
       - "3000:80"
     networks:
