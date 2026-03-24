@@ -1,8 +1,14 @@
+# Use when building manually. For docker compose use Dockerfile.compose that contains all ARG and ENV arguments
+
 # Building the app
 FROM node:24-alpine AS build-stage
 
 # Setting working directory
 WORKDIR /app
+
+# Must pass this env var when building the docker image
+ARG NGINX_SERVER
+ENV NGINX_SERVER
 
 COPY package*.json ./
 
