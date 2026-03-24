@@ -4,6 +4,14 @@ FROM node:24-alpine AS build-stage
 # Setting working directory
 WORKDIR /app
 
+# Pass build-time arguments
+
+# # For vuejs env  [ to be used only with docker compose ]
+ARG VITE_BACKEND_SOCKET
+ARG VITE_PAYMENT_SOCKET
+ENV VITE_BACKEND_SOCKET=$VITE_BACKEND_SOCKET
+ENV VITE_PAYMENT_SOCKET=$VITE_PAYMENT_SOCKET
+
 COPY package*.json ./
 
 # Install dependencies
