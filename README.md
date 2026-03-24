@@ -21,7 +21,7 @@
 
 - network: docker network create sneakers-shop-net
 - database: docker build -t sneaker-database .
-- backend: docker build -t sneaker-backend .
+- backend: docker build --build-arg NGINX_SERVER=localhost:3000 -t sneaker-backend .
 - frontend: docker build -t sneaker-frontend .
 - payment: docker build -t sneaker-payment .
 - logs: docker build -t sneaker-logs .
@@ -79,10 +79,12 @@ docker exec -it <container-name-or-id> sh
     ```
 
 # Running locally
+- Must pass NGINX_SERVER in frontend docker build command
 - Replace .env file as -
     ```
-        VITE_BACKEND_SOCKET=localhost:8080
-        VITE_PAYMENT_SOCKET=localhost:8081
-        FRONTEND_SOCKET=localhost:3000
+        VITE_BACKEND_SOCKET=http://localhost:8080
+        VITE_PAYMENT_SOCKET=http://localhost:8081
+        FRONTEND_SOCKET=http://localhost:3000
+        NGINX_SERVER=http://localhost:3000
         DATABASE_HOST=sneakerdb
     ```
